@@ -1,6 +1,7 @@
 use axum::routing::{get, post};
 use dotenv::dotenv;
 use log::info;
+use tower_http::cors::CorsLayer;
 
 use crate::models::app_state::AppState;
 use crate::services::user_service;
@@ -19,8 +20,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let app = axum::Router::new()
         .route("/", get(|| async { "Hello World!" }))
-        .route("/sighup", post(user_service::signup))
+        .route("/user/sighup", post(user_service::signup))
         .route("/login", post(user_service::login))
+        .layer(CorsLayer::permissive())
         .with_state(app_state);
 
     info!("Starting server");

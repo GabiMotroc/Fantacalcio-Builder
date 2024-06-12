@@ -1,3 +1,9 @@
+use leptos::*;
+
+use fantacalcio_builder_app::App;
+
 fn main() {
-    println!("Hello world from app");
+    mount_to_body(|| {
+        view! { <App/> }
+    })
 }
