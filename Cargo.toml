@@ -5,4 +5,4 @@
 
 [workspace]
 resolver = "2"
-members = ["api", "app", "request-domain", "request-domain"]
+members = ["app", "api", "request-domain"]

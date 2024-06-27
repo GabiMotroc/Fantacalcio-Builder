@@ -1,9 +1,10 @@
-use chrono::{DateTime, Utc};
+use chrono::NaiveDateTime;
 
 pub struct User {
     pub id: i32,
     pub email: String,
     pub password: String,
-    pub created_at: DateTime<Utc>,
-    pub last_login: DateTime<Utc>,
+    pub salt: String,
+    pub created_at: NaiveDateTime,
+    pub last_login: Option<NaiveDateTime>,
 }

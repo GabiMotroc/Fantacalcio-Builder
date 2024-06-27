@@ -1,4 +1,5 @@
 use leptos::{Action, component, create_signal, event_target_value, IntoView, SignalGet, view};
+use leptos::ev::SubmitEvent;
 
 #[component]
 pub fn CredentialsForm
@@ -9,14 +10,20 @@ pub fn CredentialsForm
 ) -> impl IntoView {
     let (email, set_email) = create_signal("".to_string());
     let (password, set_password) = create_signal("".to_string());
-    let (error, set_error) = create_signal("".to_string());
+    let (error, _) = create_signal("".to_string());
 
 
     let dispatch_action =
         move || action.dispatch((email.get(), password.get()));
+    
+    let on_submit = move |ev: SubmitEvent| {
+        ev.prevent_default();
+
+        dispatch_action();
+    };
 
     view! {
-        <div>
+        <form on:submit=on_submit>
             <h2>{title}</h2>
             <div class="m-5">
                 <label for="email_input" class="form-label">
@@ -50,13 +57,13 @@ pub fn CredentialsForm
                     <button
                         class="btn btn-primary row"
                         style="width: 100%"
-                        on:click=move |_| dispatch_action()
+                        type="submit"
                     >
                         {action_label}
                     </button>
                 </div>
                 {error}
             </div>
-        </div>
+        </form>
     }
 }

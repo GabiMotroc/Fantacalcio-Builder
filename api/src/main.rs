@@ -9,6 +9,7 @@ use crate::services::user_service;
 mod models;
 mod startup;
 mod services;
+mod routes;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -19,15 +20,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     };
 
     let app = axum::Router::new()
-        .route("/", get(|| async { "Hello World!" }))
-        .route("/user/sighup", post(user_service::signup))
-        .route("/login", post(user_service::login))
+        .nest("/api", routes::get_routes())
         .layer(CorsLayer::permissive())
         .with_state(app_state);
 
     info!("Starting server");
 
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000")
+    let listener = tokio::net::TcpListener::bind("localhost:3000")
         .await?;
 
     axum::serve(listener, app).await?;

@@ -2,8 +2,8 @@
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     email TEXT UNIQUE NOT NULL,
-    password TEXT,
-    salt TEXT,
+    password TEXT NOT NULL,
+    salt TEXT NOT NULL,
     created_at TIMESTAMP NOT NULL,
     last_login TIMESTAMP
 )

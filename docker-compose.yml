@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  api:
+    build:
+      context: .
+      dockerfile: api.Dockerfile
+#      args:
+#        - DATABASE_URL=postgres://postgres:password@postgres/mydatabase
+    environment:
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/mydatabase
+      - SQLX_OFFLINE=true
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+
+  app:
+    build:
+      context: .
+      dockerfile: app.Dockerfile
+    environment:
+      API_URL: http://api:8080
+    depends_on:
+      - api
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:
