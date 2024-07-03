@@ -7,6 +7,7 @@ use leptos_use::utils::JsonCodec;
 use request_domain::login::Token;
 
 use crate::components::navbar::Navbar;
+use crate::pages::create_squad::ChooseSquad;
 use crate::pages::hello_world::HelloWorld;
 use crate::pages::test::Test;
 use crate::services::api::Api;
@@ -83,10 +84,18 @@ pub fn App() -> impl IntoView {
                             view! { <Test/> }
                         }
                     />
+
                     <Route
                         path=Page::HelloWorld.path()
                         view=move || {
                             view! { <HelloWorld/> }
+                        }
+                    />
+
+                    <Route
+                        path=Page::CreateSquad.path()
+                        view=move || {
+                            view! { <ChooseSquad/> }
                         }
                     />
 

@@ -54,11 +54,7 @@ pub fn CredentialsForm
                 />
 
                 <div class=" d-flex align-items-center justify-content-center pt-4">
-                    <button
-                        class="btn btn-primary row"
-                        style="width: 100%"
-                        type="submit"
-                    >
+                    <button class="btn btn-primary row" style="width: 100%" type="submit">
                         {action_label}
                     </button>
                 </div>
