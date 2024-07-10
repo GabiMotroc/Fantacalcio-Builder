@@ -7,5 +7,5 @@ create table if not exists players(
     position "position" not null,
     name text not null,
     team text not null,
-    is_active bool default true
+    is_active bool default true not null
 );

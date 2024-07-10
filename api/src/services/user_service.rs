@@ -23,9 +23,9 @@ pub async fn login(State(state): State<AppState>, Json(login_details): Json<Logi
     let user = Db::get_user(&login_details.email, &state.db_connection).await?;
 
     verify_password_hash(&user, &login_details.password)?;
-    
+
     let token = create_token(user.id)?;
-    
+
     Ok(
         Json::from(Token {
             token
@@ -36,23 +36,21 @@ pub async fn login(State(state): State<AppState>, Json(login_details): Json<Logi
 pub async fn register(State(state): State<AppState>, Json(login_details): Json<LoginRequest>) -> Result<Json<Token>, ApiError> {
     println!("signup");
 
-    let (hash, salt) = create_password_hash(&login_details.password, ).unwrap();
+    let (hash, salt) = create_password_hash(&login_details.password).unwrap();
 
     let user_id = Db::create_user(&login_details.email, &hash, &salt, &state.db_connection)
         .await?;
 
     let token = create_token(user_id)?;
-    
+
     Ok(
         Json::from(Token {
             token
         })
     )
-    // Ok((StatusCode::CREATED, user_id.to_string()).into_response())
 }
 
 pub fn create_token(user_id: i32) -> Result<String, ApiError> {
-
     let key: Hmac<Sha256> = Hmac::new_from_slice(b"some-secret")?;
 
     let mut claims = BTreeMap::new();
@@ -81,11 +79,11 @@ fn verify_password_hash(user: &User, input_password: &str) -> Result<(), ApiErro
     let hash = PasswordHash::generate(argon2, input_password, salt);
     let hash_string = hash.unwrap().to_string();
     let result = hash_string == user.password;
-    
+
     println!("{} {}", &hash_string, user.password);
-    
+
     match result {
-        true => {Ok(())}
-        false => {Err(ApiError::InvalidCredentials)}
+        true => { Ok(()) }
+        false => { Err(ApiError::InvalidCredentials) }
     }
 }

@@ -79,6 +79,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "ariadne"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "44055e597c674aef7cb903b2b9f6e4cba1277ed0d2d61dae7cd52d7ffa81f8e2"
+dependencies = [
+ "unicode-width",
+ "yansi",
+]
+
+[[package]]
 name = "async-recursion"
 version = "1.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -670,6 +680,7 @@ dependencies = [
  "serde_json",
  "sha2",
  "sqlx",
+ "sqlx-type-macro",
  "stylers",
  "tokio",
  "tower",
@@ -2508,6 +2519,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "sql-parse"
+version = "0.20.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1e3aa48abce6b9689fba745b56f039a5ca2439c5ab51003b68f6234bac3f91d5"
+
+[[package]]
+name = "sql-type"
+version = "0.20.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "af00c858909415db747131be54f990eb308c931c661a5ae4a6b385b084d69a47"
+dependencies = [
+ "sql-parse",
+]
+
+[[package]]
 name = "sqlformat"
 version = "0.2.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2716,6 +2742,22 @@ dependencies = [
  "tracing",
  "url",
  "urlencoding",
+]
+
+[[package]]
+name = "sqlx-type-macro"
+version = "0.3.16"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7f0cd977272182252ec3acb87cae23a834ecbe93af1aae074e4c1e67b2310de1"
+dependencies = [
+ "ariadne",
+ "once_cell",
+ "proc-macro2",
+ "quote",
+ "serde",
+ "serde_json",
+ "sql-type",
+ "syn 2.0.66",
 ]
 
 [[package]]
@@ -3113,6 +3155,12 @@ name = "unicode-segmentation"
 version = "1.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d4c87d22b6e3f4a18d4d40ef354e97c90fcb14dd91d7dc0aa9d8a1172ebf7202"
+
+[[package]]
+name = "unicode-width"
+version = "0.1.13"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0336d538f7abc86d282a4189614dfaa90810dfc2c6f6427eaf88e16311dd225d"
 
 [[package]]
 name = "unicode-xid"

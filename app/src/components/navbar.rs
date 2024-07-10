@@ -23,12 +23,19 @@ pub fn Navbar() -> impl IntoView {
                 </button>
                 <div class="collapse navbar-collapse" id="navBar">
                     <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/test">
-                                Test
-                            </a>
-                        </li>
-                        <Show when=move || { !is_logged_in.get() }>
+                        <Show
+                            when=move || { !is_logged_in.get() }
+                            fallback=|| {
+                                view! {
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/create-squad">
+                                            Create Squad
+                                        </a>
+                                    </li>
+                                }
+                            }
+                        >
+
                             <li class="nav-item">
                                 <a class="nav-link" href="/login">
                                     Login

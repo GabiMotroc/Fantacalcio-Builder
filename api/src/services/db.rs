@@ -1,5 +1,10 @@
 use chrono::Utc;
 use sqlx::PgPool;
+
+use request_domain::player::Player;
+
+use crate::models::player::PlayerEntity;
+// use crate::models::player::Player;
 use crate::models::user::User;
 
 pub struct Db;
@@ -21,6 +26,15 @@ impl Db {
             "select * from users where email = $1",
             email)
             .fetch_one(pool)
+            .await
+    }
+
+    pub async fn get_players(pool: &PgPool) -> Result<Vec<PlayerEntity>, sqlx::Error> {
+        sqlx::query_as!(
+            PlayerEntity,
+            r#"select id, fantacalcio_id, name, team, is_active, position as "position: _" from players limit 25"#
+        )
+            .fetch_all(pool)
             .await
     }
 }
