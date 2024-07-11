@@ -3,7 +3,7 @@ use leptos::{component, create_signal, For, IntoView, view};
 use crate::components::player::Player;
 
 #[component]
-pub fn choose_squad() -> impl IntoView {
+pub fn select_squad() -> impl IntoView {
     let (goalkeppers, _) = create_signal(vec![0, 1, 2]);
     let (backs, _) = create_signal(vec![0, 0, 0, 0, 0, 0, 0, 0]);
     let mids = vec![0, 0, 0, 0, 0, 0, 0, 0];

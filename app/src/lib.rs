@@ -1,20 +1,20 @@
-use leptos::leptos_dom::logging::console_log;
 use leptos::*;
+use leptos::leptos_dom::logging::console_log;
 use leptos_meta::*;
 use leptos_router::*;
 use leptos_use::storage::use_local_storage;
 use leptos_use::utils::JsonCodec;
+
 use request_domain::login::Token;
 
 use crate::components::navbar::Navbar;
-use crate::pages::create_squad::ChooseSquad;
+use crate::pages::build_squad::BuildSquad;
 use crate::pages::hello_world::HelloWorld;
 use crate::pages::test::Test;
 use crate::services::api::Api;
 use crate::services::auth::AuthSession;
 
 use self::pages::*;
-
 
 mod components;
 mod pages;
@@ -93,9 +93,9 @@ pub fn App() -> impl IntoView {
                     />
 
                     <Route
-                        path=Page::CreateSquad.path()
+                        path=Page::BuildSquad.path()
                         view=move || {
-                            view! { <ChooseSquad/> }
+                            view! { <BuildSquad/> }
                         }
                     />
 

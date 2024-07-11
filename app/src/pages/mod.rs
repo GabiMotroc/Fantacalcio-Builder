@@ -5,7 +5,8 @@ pub mod home;
 pub mod register;
 pub mod test;
 pub mod hello_world;
-pub mod create_squad;
+pub mod select_squad;
+pub mod build_squad;
 
 #[derive(Debug, Clone, Copy, Default)]
 pub enum Page {
@@ -16,6 +17,7 @@ pub enum Page {
     Test,
     HelloWorld,
     CreateSquad,
+    BuildSquad,
 }
 
 impl Page {
@@ -26,7 +28,8 @@ impl Page {
             Self::Register => "/register",
             Self::Test => "/test",
             Self::HelloWorld => "/hello-world",
-            Self::CreateSquad => "/create-squad"
+            Self::CreateSquad => "/create-squad",
+            Self::BuildSquad => "/build-squad"
         }
     }
 }
