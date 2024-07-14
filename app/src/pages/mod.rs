@@ -16,7 +16,7 @@ pub enum Page {
     Register,
     Test,
     HelloWorld,
-    CreateSquad,
+    SelectSquad,
     BuildSquad,
 }
 
@@ -28,7 +28,7 @@ impl Page {
             Self::Register => "/register",
             Self::Test => "/test",
             Self::HelloWorld => "/hello-world",
-            Self::CreateSquad => "/create-squad",
+            Self::SelectSquad => "/create-squad",
             Self::BuildSquad => "/build-squad"
         }
     }

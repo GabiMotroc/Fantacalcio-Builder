@@ -1,8 +1,7 @@
 use chrono::Utc;
 use sqlx::PgPool;
 
-use request_domain::player::Player;
-
+use crate::models::error::ApiError;
 use crate::models::player::PlayerEntity;
 // use crate::models::player::Player;
 use crate::models::user::User;
@@ -36,5 +35,16 @@ impl Db {
         )
             .fetch_all(pool)
             .await
+    }
+
+    pub async fn select_players(pool: &PgPool, user_id: i32, player_ids: Vec<i32>) -> Result<(), ApiError> {
+        sqlx::query!(
+            "insert into selected_players (user_id, player_id) select * from unnest($1::INT4[], $2::INT4[])", 
+            &vec![user_id; player_ids.len()], &player_ids
+        )
+            .execute(pool)
+            .await?;
+
+        Ok(())
     }
 }

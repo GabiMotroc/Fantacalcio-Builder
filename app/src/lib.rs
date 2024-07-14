@@ -10,6 +10,7 @@ use request_domain::login::Token;
 use crate::components::navbar::Navbar;
 use crate::pages::build_squad::BuildSquad;
 use crate::pages::hello_world::HelloWorld;
+use crate::pages::select_squad::SelectSquad;
 use crate::pages::test::Test;
 use crate::services::api::Api;
 use crate::services::auth::AuthSession;
@@ -51,19 +52,12 @@ pub fn App() -> impl IntoView {
             <main align="center">
                 <Routes>
                     <Route path=Page::Home.path() view=Home/>
-                    <ProtectedRoute
-                        path="my-squad"
-                        redirect_path="/login"
-                        condition=move || { is_logged.get() }
-                        view=|| view! { My Squad }
-                    />
                     <Route
                         path=Page::Login.path()
                         view=move || {
                             view! { <Login on_success=move |_| {}/> }
                         }
                     />
-
                     <Route
                         path=Page::Register.path()
                         view=move || {
@@ -75,28 +69,42 @@ pub fn App() -> impl IntoView {
                             }
                         }
                     />
-
                     <Route
                         path=Page::Test.path()
                         view=move || {
                             view! { <Test/> }
                         }
                     />
-
-                    <Route
+                    <ProtectedRoute
                         path=Page::HelloWorld.path()
+                        redirect_path="/login"
+                        condition=move || { is_logged.get() }
                         view=move || {
                             view! { <HelloWorld/> }
                         }
                     />
-
-                    <Route
+                    <ProtectedRoute
                         path=Page::BuildSquad.path()
+                        redirect_path="/login"
+                        condition=move || { is_logged.get() }
                         view=move || {
                             view! { <BuildSquad/> }
                         }
                     />
-
+                    <ProtectedRoute
+                        path=Page::SelectSquad.path()
+                        redirect_path="/login"
+                        condition=move || { is_logged.get() }
+                        view=move || {
+                            view! { <SelectSquad/> }
+                        }
+                    />
+                    <ProtectedRoute
+                        path="my-squad"
+                        redirect_path="/login"
+                        condition=move || { is_logged.get() }
+                        view=|| view! { My Squad }
+                    />
                     <Route path="*any" view=|| view! { <h1>"Not Found"</h1> }/>
                 </Routes>
             </main>
