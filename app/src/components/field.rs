@@ -1,10 +1,12 @@
 use leptos::{component, IntoView};
 use stylers::style_str;
 
+use crate::components::player_dropzone::PlayerDropZone;
+
 #[component]
 pub fn Field() -> impl IntoView {
     let (class_name, style_val) = style_str! {
-        body {
+        .body {
             margin: 0;
             background-color: #2b2b2b;
         }
@@ -89,26 +91,34 @@ pub fn Field() -> impl IntoView {
         .top-goal-box {
             align-items: start;
         }
+        
+        .box{
+            position: absolute;
+            height: 100px;
+            width: 100px;
+            background-color: red;
+        }
     };
 
     leptos::view! {
         class = class_name,
         <style>{style_val}</style>
-        <div class="field">
-            <div class="top-goal goal-area">
-                <div class="goal-box top-goal-box">
-                    <div class="six-yard-box"></div>
+            <div class="field">
+                <PlayerDropZone></PlayerDropZone> 
+                <div class="top-goal goal-area">
+                    <div class="goal-box top-goal-box">
+                        <div class="six-yard-box"></div>
+                    </div>
+                </div>
+                <div class="field-inner">
+                    <div class="half-line"></div>
+                    <div class="center-circle"></div>
+                </div>
+                <div class="bottom-goal goal-area">
+                    <div class="goal-box bottom-goal-box">
+                        <div class="six-yard-box"></div>
+                    </div>
                 </div>
             </div>
-            <div class="field-inner">
-                <div class="half-line"></div>
-                <div class="center-circle"></div>
-            </div>
-            <div class="bottom-goal goal-area">
-                <div class="goal-box bottom-goal-box">
-                    <div class="six-yard-box"></div>
-                </div>
-            </div>
-        </div>
     }
 }

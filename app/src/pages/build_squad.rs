@@ -9,7 +9,7 @@ pub fn build_squad() -> impl IntoView {
             <div class="row vh-100">
                 <div class="col-md-6 d-flex flex-column justify-content-center align-items-center bg-light">
                     <ul class="list-unstyled">
-                        <li>Player 1</li>
+                        <li draggable="true">Player 1</li>
                         <li>Player 2</li>
                         <li>Player 3</li>
                         <li>Player 4</li>
