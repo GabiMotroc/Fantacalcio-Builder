@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Player {
     pub id: i32,
     pub fantacalcio_id: i32,
@@ -9,7 +10,7 @@ pub struct Player {
     pub is_active: bool,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 // #[sqlx(type_name = "position")]
 pub enum Position {
     Goalkeeper,

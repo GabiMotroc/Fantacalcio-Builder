@@ -1,7 +1,6 @@
 use leptos::{component, IntoView};
 use stylers::style_str;
-
-use crate::components::player_dropzone::PlayerDropZone;
+use crate::components::player_dropzone::PlayerDropzone;
 
 #[component]
 pub fn Field() -> impl IntoView {
@@ -104,7 +103,9 @@ pub fn Field() -> impl IntoView {
         class = class_name,
         <style>{style_val}</style>
             <div class="field">
-                <PlayerDropZone></PlayerDropZone> 
+                <div class="box">
+                    <PlayerDropzone/>
+                </div>
                 <div class="top-goal goal-area">
                     <div class="goal-box top-goal-box">
                         <div class="six-yard-box"></div>

@@ -38,8 +38,6 @@ pub fn App() -> impl IntoView {
 
     provide_context(is_logged);
 
-    create_effect(move |_| console_log(&is_logged().to_string()));
-
     view! {
         <Stylesheet href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
         <Script

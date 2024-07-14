@@ -1,37 +1,42 @@
-use leptos::{component, create_node_ref, create_signal, For, IntoView, view};
-use leptos::html::Div;
-use leptos_use::{use_drop_zone_with_options, UseDropZoneOptions, UseDropZoneReturn};
-use leptos_use::docs::BooleanDisplay;
+use leptos::ev::DragEvent;
+use leptos::leptos_dom::logging::console_log;
+use leptos::{component, create_signal, view, IntoView};
+use serde_json::from_str;
+
+use request_domain::player::Player;
 
 #[component]
-pub fn PlayerDropZone() -> impl IntoView {
-    let (dropped, set_dropped) = create_signal(false);
+pub fn PlayerDropzone() -> impl IntoView {
+    let (data, set_data) = create_signal(None::<Player>);
 
-    let box_ref = create_node_ref::<Div>();
-    let UseDropZoneReturn {
-        is_over_drop_zone,
-        files,
-    } = use_drop_zone_with_options(
-        box_ref,
-        UseDropZoneOptions::default()
-            .on_drop(move |node| {
-                set_dropped(true);
-            })
-            .on_enter(move |node| set_dropped(false))
-        ,
-    );
+    let handle_drag_over = move |event: DragEvent| {
+        console_log(&format!("Drag over event: {:?}", event));
+        event.prevent_default();
+    };
+
+    let handle_drop = move |event: DragEvent| {
+        console_log(&format!("Drop event: {:?}", event));
+        event.prevent_default();
+        let data_transfer = event.data_transfer().unwrap();
+        if let Ok(json_data) = data_transfer.get_data("application/json") {
+            if let Ok(data) = from_str::<Player>(&json_data) {
+                set_data(Some(data));
+            }
+        }
+    };
+
     view! {
-        <div class="box" node_ref=box_ref>
-            dropped:
-            <BooleanDisplay value=dropped/>
-              <For each=files key=|f| f.name() let:file>
-                            <div class="w-200px bg-black-200/10 ma-2 pa-6">
-                                <p>Name: {file.name()}</p>
-                                <p>Size: {file.size()}</p>
-                                <p>Type: {file.type_()}</p>
-                                <p>Last modified: {file.last_modified()}</p>
-                            </div>
-                        </For>
+        <div
+            class="dropbox"
+            on:dragover=handle_drag_over
+            on:drop=handle_drop
+        >
+            {move ||
+                match data() {
+                    Some(data) => view! { <p>{format!("Dropped: {:?}", data.name)}</p> },
+                    None => view! {  <p>{"Drop here"}</p> },
+                }
+            }
         </div>
     }
 }
