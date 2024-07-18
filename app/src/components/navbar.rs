@@ -28,8 +28,8 @@ pub fn Navbar() -> impl IntoView {
                             fallback=|| {
                                 view! {
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/create-squad">
-                                            Create Squad
+                                        <a class="nav-link" href="/build-squad">
+                                            Build Squad
                                         </a>
                                     </li>
                                 }

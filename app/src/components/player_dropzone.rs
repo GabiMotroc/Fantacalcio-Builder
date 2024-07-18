@@ -1,6 +1,6 @@
 use leptos::ev::DragEvent;
-use leptos::leptos_dom::logging::console_log;
 use leptos::{component, create_signal, view, IntoView};
+use leptos::leptos_dom::logging::console_log;
 use serde_json::from_str;
 
 use request_domain::player::Player;
@@ -26,17 +26,13 @@ pub fn PlayerDropzone() -> impl IntoView {
     };
 
     view! {
-        <div
-            class="dropbox"
-            on:dragover=handle_drag_over
-            on:drop=handle_drop
-        >
-            {move ||
-                match data() {
-                    Some(data) => view! { <p>{format!("Dropped: {:?}", data.name)}</p> },
-                    None => view! {  <p>{"Drop here"}</p> },
-                }
-            }
+        <div on:dragover=handle_drag_over on:drop=handle_drop class="test">
+            <img src="player_icon.png" style="width: 100%; height: 100%"/>
+            {move || match data() {
+                Some(data) => view! { <div>{data.name}</div> },
+                None => view! { <div></div> },
+            }}
+
         </div>
     }
 }

@@ -26,8 +26,8 @@ pub fn test() -> impl IntoView {
 
     view! {
         <div class="container">
-            <DraggablePlayer player=barella></DraggablePlayer>
-            <DraggablePlayer player=lookman></DraggablePlayer>
+            <DraggablePlayer player=barella/>
+            <DraggablePlayer player=lookman/>
             <PlayerDropzone/>
         </div>
     }

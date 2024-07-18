@@ -29,8 +29,12 @@ pub fn build_squad() -> impl IntoView {
             <div class="row vh-100">
                 <div class="col-md-6 d-flex flex-column justify-content-center align-items-center bg-light">
                     <ul class="list-unstyled">
-                        <li><DraggablePlayer player=barella></DraggablePlayer></li>
-                        <li><DraggablePlayer player=lookman></DraggablePlayer></li>
+                        <li>
+                            <DraggablePlayer player=barella/>
+                        </li>
+                        <li>
+                            <DraggablePlayer player=lookman/>
+                        </li>
                     </ul>
                 </div>
                 <div class="col-md-6 d-flex justify-content-center align-items-center">

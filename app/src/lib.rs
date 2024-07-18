@@ -58,6 +58,7 @@ pub fn App() -> impl IntoView {
                             view! { <Login on_success=move |_| {}/> }
                         }
                     />
+
                     <Route
                         path=Page::Register.path()
                         view=move || {
@@ -69,12 +70,14 @@ pub fn App() -> impl IntoView {
                             }
                         }
                     />
+
                     <Route
                         path=Page::Test.path()
                         view=move || {
                             view! { <Test/> }
                         }
                     />
+
                     <ProtectedRoute
                         path=Page::HelloWorld.path()
                         redirect_path="/login"
@@ -83,6 +86,7 @@ pub fn App() -> impl IntoView {
                             view! { <HelloWorld/> }
                         }
                     />
+
                     <ProtectedRoute
                         path=Page::BuildSquad.path()
                         redirect_path="/login"
@@ -91,6 +95,7 @@ pub fn App() -> impl IntoView {
                             view! { <BuildSquad/> }
                         }
                     />
+
                     <ProtectedRoute
                         path=Page::SelectSquad.path()
                         redirect_path="/login"
@@ -99,6 +104,7 @@ pub fn App() -> impl IntoView {
                             view! { <SelectSquad/> }
                         }
                     />
+
                     <ProtectedRoute
                         path="my-squad"
                         redirect_path="/login"

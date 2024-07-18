@@ -15,11 +15,7 @@ pub fn DraggablePlayer(player: Player) -> impl IntoView {
     };
 
     view! {
-        <div
-            class="draggable"
-            draggable="true"
-            on:dragstart=handle_drag_start
-        >
+        <div class="draggable" draggable="true" on:dragstart=handle_drag_start>
             {player_copy.name.clone()}
         </div>
     }
