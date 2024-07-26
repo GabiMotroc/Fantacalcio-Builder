@@ -19,6 +19,12 @@ pub fn SelectSquad() -> impl IntoView {
         Some(data) => {
             view! {
                 <div class="overflow-auto col-md-6" style="height=800px">
+                    <div class="form-outline mb-4">
+                        <input type="text" class="form-control" id="datatable-search-input"/>
+                        <label class="form-label" for="datatable-search-input">
+                            Search
+                        </label>
+                    </div>
                     <table class="table table-hover">
                         <thead>
                             <th scope="col">#</th>
@@ -31,13 +37,13 @@ pub fn SelectSquad() -> impl IntoView {
                                 .iter()
                                 .map(|x| {
                                     view! {
-                                    <tr>
-                                        <th scope="row">{x.id}</th>
-                                        <td>{&x.name}</td>
-                                        <td>{&x.team}</td>
-                                        <td>{&x.position.to_string()}</td>
-                                    </tr> 
-                                }
+                                        <tr>
+                                            <th scope="row">{x.id}</th>
+                                            <td>{&x.name}</td>
+                                            <td>{&x.team}</td>
+                                            <td>{&x.position.to_string()}</td>
+                                        </tr>
+                                    }
                                 })
                                 .collect::<Vec<_>>()}
                         </tbody>
@@ -47,7 +53,7 @@ pub fn SelectSquad() -> impl IntoView {
         }
     };
 
-    view! { 
+    view! {
         <div class="container-fluid">
             <div class="row vh-100">
                 <div class="col-md-6">
