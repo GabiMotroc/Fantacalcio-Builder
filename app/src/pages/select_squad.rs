@@ -1,49 +1,60 @@
-use leptos::{component, IntoView};
+use leptos::{component, create_resource, IntoView, SignalGet, use_context, view};
+
+use crate::components::input::checkbox::CheckboxInput;
+use crate::services::api::Api;
 
 #[component]
-pub fn SelectSquad() -> impl IntoView {}
-// let (goalkeppers, _) = create_signal(vec![0, 1, 2]);
-// let (backs, _) = create_signal(vec![0, 0, 0, 0, 0, 0, 0, 0]);
-// let mids = vec![0, 0, 0, 0, 0, 0, 0, 0];
-// let initial_forwards = (1..6).map(|id| (id, create_signal(id))).collect::<Vec<_>>();
-// let (forwards, _) = create_signal(initial_forwards);
-// 
-// let (players_grid, _) = create_signal(
-// vec![
-//     create_signal(vec![0, 1, 2, 3, 4, 5]),
-//     create_signal(vec![0, 1, 2, 3, 4, 5, 6, 7]),
-//     create_signal(vec![0, 1, 2, 3, 4, 5, 6, 7]),
-//     create_signal(vec![0, 1, 2]),
-// ]
-// );
-// 
-// view! {
-//         <div class="container-fluid">
-//             <For
-//                 each=players_grid
-//                 key=|n| 1
-//                 children=move |row| {
-//                     view! {
-//                         <div class="row">
-//                             <For
-//                                 each=row.0
-//                                 key=|m| *m
-//                                 children=move |player| {
-//                                     view! {
-//                                         <div class="col align-self-center">
-//                                             <Player col=player row=1/>
-//                                         </div>
-//                                     }
-//                                 }
-//                             />
-// 
-//                         </div>
-//                     }
-//                 }
-//             />
-// 
-//         // {mids.into_iter().map(|n| view! { <Player/> }).collect_view()}
-// 
-//         // <img src="field.png" height="100%"/>
-//         </div>
-//     }
+pub fn SelectSquad() -> impl IntoView {
+    let api = use_context::<Api>().expect("required api service");
+
+    let players = create_resource(|| (), move |_| async move {
+        api.get_players().await
+    });
+
+
+    let players_view = move || match players.get() {
+        None => {
+            view! { <div>Loading...</div> }
+        }
+        Some(data) => {
+            view! {
+                <div class="overflow-auto col-md-6" style="height=800px">
+                    <table class="table table-hover">
+                        <thead>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Team</th>
+                            <th scope="col">Position</th>
+                        </thead>
+                        <tbody>
+                            {data
+                                .iter()
+                                .map(|x| {
+                                    view! {
+                                    <tr>
+                                        <th scope="row">{x.id}</th>
+                                        <td>{&x.name}</td>
+                                        <td>{&x.team}</td>
+                                        <td>{&x.position.to_string()}</td>
+                                    </tr> 
+                                }
+                                })
+                                .collect::<Vec<_>>()}
+                        </tbody>
+                    </table>
+                </div>
+            }
+        }
+    };
+
+    view! { 
+        <div class="container-fluid">
+            <div class="row vh-100">
+                <div class="col-md-6">
+                    <CheckboxInput display_text="Checkbox".to_string()/>
+                </div>
+                {players_view}
+            </div>
+        </div>
+    }
+}

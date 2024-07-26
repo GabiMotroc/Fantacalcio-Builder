@@ -1,5 +1,7 @@
 use leptos::{component, expect_context, IntoView, Show, Signal, SignalGet, view};
 
+use crate::pages::Page::{BuildSquad, SelectSquad};
+
 #[component]
 pub fn Navbar() -> impl IntoView {
     let is_logged_in = expect_context::<Signal<bool>>();
@@ -28,8 +30,13 @@ pub fn Navbar() -> impl IntoView {
                             fallback=|| {
                                 view! {
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/build-squad">
+                                        <a class="nav-link" href=BuildSquad.path()>
                                             Build Squad
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href=SelectSquad.path()>
+                                            Select squad
                                         </a>
                                     </li>
                                 }

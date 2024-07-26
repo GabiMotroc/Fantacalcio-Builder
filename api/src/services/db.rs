@@ -31,7 +31,7 @@ impl Db {
     pub async fn get_players(pool: &PgPool) -> Result<Vec<PlayerEntity>, sqlx::Error> {
         sqlx::query_as!(
             PlayerEntity,
-            r#"select id, fantacalcio_id, name, team, is_active, position as "position: _" from players limit 25"#
+            r#"select id, fantacalcio_id, name, team, is_active, position as "position: _" from players"#
         )
             .fetch_all(pool)
             .await

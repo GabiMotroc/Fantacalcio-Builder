@@ -5,3 +5,4 @@ pub mod field;
 pub mod player_dropzone;
 pub mod draggable_player;
 pub mod player_formation;
+pub mod input;

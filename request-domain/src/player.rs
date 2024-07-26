@@ -1,3 +1,6 @@
+use std::fmt;
+use std::fmt::{Display, Formatter};
+
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -17,4 +20,10 @@ pub enum Position {
     Defender,
     Midfielder,
     Forward,
+}
+
+impl Display for Position {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        write!(f, "{:?}", self)
+    }
 }

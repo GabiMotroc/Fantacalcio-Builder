@@ -28,7 +28,7 @@ impl Page {
             Self::Register => "/register",
             Self::Test => "/test",
             Self::HelloWorld => "/hello-world",
-            Self::SelectSquad => "/create-squad",
+            Self::SelectSquad => "/select-squad",
             Self::BuildSquad => "/build-squad"
         }
     }

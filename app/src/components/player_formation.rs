@@ -14,8 +14,7 @@ pub fn PlayerFormation() -> impl IntoView{
             z-index: 2;
         }
     };
-    view! {
-        class = class_name,
+    view! { class=class_name,
         <style>{style_val}</style>
         <div class="vh-100 d-flex align-items-center justify-content-center">
             <div class="container h-100 d-flex flex-column justify-content-around">

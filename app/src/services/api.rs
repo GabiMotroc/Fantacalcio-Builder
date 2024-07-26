@@ -1,6 +1,7 @@
 use gloo_net::http::{Request, Response};
 
 use request_domain::login::{LoginRequest, Token};
+use request_domain::player::Player;
 
 #[derive(Copy, Clone)]
 pub struct Api {
@@ -23,14 +24,21 @@ impl Api {
         let response = Request::post(&url).json(&login_request)?.send().await?;
         into_json(response).await
     }
+
+    pub async fn get_players(&self) -> Vec<Player> {
+        let url = format!("{}/player/search", self.url);
+        let response = Request::post(&url)
+            .header("X-Auth-Token", "")
+            .send().await.unwrap();
+        response.json().await.unwrap()
+    }
 }
 
-// type Result<T> = std::result::Result<T, ApiError>;
 type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 
 async fn into_json<T>(response: Response) -> Result<T>
-    where
-        T: serde::de::DeserializeOwned,
+where
+    T: serde::de::DeserializeOwned,
 {
     if response.ok() {
         Ok(response.json().await?)
