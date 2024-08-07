@@ -1,10 +1,10 @@
-use leptos::{component, create_action, create_signal, For, IntoView, SignalGetUntracked, SignalUpdate, use_context, view};
+use leptos::{component, create_action, create_signal, IntoView, Signal, SignalUpdate, use_context, view};
 use leptos::leptos_dom::logging::console_log;
 
 use request_domain::player::{Player, Position};
 
-use crate::components::input::enum_dropdown::EnumDropdown;
 use crate::components::input::form_input::TextInput;
+use crate::components::player_table::PlayerTable;
 use crate::services::api::Api;
 
 #[component]
@@ -27,7 +27,7 @@ pub fn SelectSquad() -> impl IntoView {
 
     let (search, set_search) = create_signal("".to_string());
 
-    let displayed_players = move || {
+    let displayed_players = Signal::derive(move || {
         let all_players = players();
 
         let search_value = search();
@@ -38,15 +38,21 @@ pub fn SelectSquad() -> impl IntoView {
 
         let position = selected_position();
         filter_position(result, position)
-    };
+    });
 
     view! {
         <div class="container-fluid">
             <div class="row vh-100">
                 <div class="col-md-6">
-                    <For each=selected_players key=|p| p.id let:player>
-                        <div>{player.name}</div>
-                    </For>
+                    <PlayerTable
+                        players=selected_players
+                        on_row_click=move |p: Player| {
+                            set_selected_players
+                                .update(move |list| {
+                                    list.retain(|i| i.id != p.id);
+                                });
+                        }
+                    />
 
                 </div>
                 <div class="overflow-auto col-md-6" style="height=800px">
@@ -56,44 +62,18 @@ pub fn SelectSquad() -> impl IntoView {
                         getter=search
                         setter=set_search
                     />
-                    <table class="table table-hover">
-                        <thead>
-                            <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Team</th>
-                            <th scope="col">
-                                <EnumDropdown
-                                    placeholder="Position".to_string()
-                                    enum_values=Position::all()
-                                    setter=set_selected_position
-                                />
-                            </th>
-                        </thead>
-                        <tbody>
-                            <For each=displayed_players key=|player| player.id let:player>
 
-                                {{
-                                    let cloned_player = player.clone();
-                                    view! {
-                                        <tr on:click=move |_| {
-                                            let cloned_player = cloned_player.clone();
-                                            console_log(&format!("clicked player {} with all players {:?}", &cloned_player.name, selected_players.get_untracked()));
-                                            set_selected_players
-                                                .update(move |list| {
-                                                    list.push(cloned_player);
-                                                });
-                                        }>
-                                            <th scope="row">{player.id}</th>
-                                            <td>{&player.name}</td>
-                                            <td>{&player.team}</td>
-                                            <td>{&player.position.to_string()}</td>
-                                        </tr>
-                                    }
-                                }}
+                    <PlayerTable
+                        players=displayed_players
+                        set_selected_position=set_selected_position
+                        on_row_click=move |p: Player| {
+                            set_selected_players
+                                .update(move |list| {
+                                    list.push(p);
+                                });
+                        }
+                    />
 
-                            </For>
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>

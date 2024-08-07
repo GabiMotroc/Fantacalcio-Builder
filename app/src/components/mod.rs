@@ -6,4 +6,4 @@ pub mod player_dropzone;
 pub mod draggable_player;
 pub mod player_formation;
 pub mod input;
-mod player_table;
+pub mod player_table;

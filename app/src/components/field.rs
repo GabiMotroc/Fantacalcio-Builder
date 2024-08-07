@@ -1,6 +1,6 @@
 use leptos::{component, IntoView};
 use stylers::style_str;
-use crate::components::player_dropzone::PlayerDropzone;
+
 use crate::components::player_formation::PlayerFormation;
 
 #[component]
