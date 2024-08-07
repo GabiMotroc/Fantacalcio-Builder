@@ -35,6 +35,17 @@ impl Api {
             .send().await.unwrap();
         response.json().await.unwrap()
     }
+
+    pub async fn select_players(&self, player_ids: Vec<i32>) -> Result<bool> {
+        let token = use_context::<Signal<Token>>().expect("token required");
+
+        let url = format!("{}/player/search", self.url);
+        let response = Request::post(&url)
+            .header("X-Auth-Token", &token.get_untracked().token)
+            .json(&player_ids)?
+            .send().await.unwrap();
+        Ok(response.ok())
+    }
 }
 
 type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
