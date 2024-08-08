@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "select id, fantacalcio_id, name, team, is_active, position as \"position: _\" from players limit 25",
+  "query": "\n                select id, fantacalcio_id, name, team, is_active, position as \"position: _\" from players p\n                inner join selected_players sp on p.id = sp.player_id\n                where sp.user_id = $1\n            ",
   "describe": {
     "columns": [
       {
@@ -47,7 +47,9 @@
       }
     ],
     "parameters": {
-      "Left": []
+      "Left": [
+        "Int4"
+      ]
     },
     "nullable": [
       false,
@@ -58,5 +60,5 @@
       false
     ]
   },
-  "hash": "6eb7038480720e73d7e90ee681f8f2cf541c882a11fe5e27d7c51abee4c87f3c"
+  "hash": "26e32b3d726e7e0030903567772a3c1b930a34872c181968fdd74c7881a2c5d6"
 }

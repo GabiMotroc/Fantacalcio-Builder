@@ -1,0 +1,62 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "select id, fantacalcio_id, name, team, is_active, position as \"position: _\" from players",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "fantacalcio_id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 2,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "team",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "is_active",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 5,
+        "name": "position: _",
+        "type_info": {
+          "Custom": {
+            "name": "position",
+            "kind": {
+              "Enum": [
+                "Goalkeeper",
+                "Defender",
+                "Midfielder",
+                "Forward"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "c1a02eb732d62117229b1f4f23d96aa9996f987809e5b103076e1bf645452ce4"
+}

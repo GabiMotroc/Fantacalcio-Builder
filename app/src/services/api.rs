@@ -1,5 +1,5 @@
 use gloo_net::http::{Request, Response};
-use leptos::{Signal, SignalGetUntracked, use_context};
+use leptos::{use_context, Signal, SignalGetUntracked};
 
 use request_domain::login::{LoginRequest, Token};
 use request_domain::player::Player;
@@ -36,10 +36,21 @@ impl Api {
         response.json().await.unwrap()
     }
 
+    pub async fn get_selected_players(&self) -> Vec<Player> {
+        let token = use_context::<Signal<Token>>().expect("token required");
+
+        let url = format!("{}/player/selected", self.url);
+        let response = Request::get(&url)
+            .header("X-Auth-Token", &token.get_untracked().token)
+            .send().await.unwrap();
+        response.json().await.unwrap()
+    }
+
+
     pub async fn select_players(&self, player_ids: Vec<i32>) -> Result<bool> {
         let token = use_context::<Signal<Token>>().expect("token required");
 
-        let url = format!("{}/player/search", self.url);
+        let url = format!("{}/player/select", self.url);
         let response = Request::post(&url)
             .header("X-Auth-Token", &token.get_untracked().token)
             .json(&player_ids)?

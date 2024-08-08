@@ -7,3 +7,4 @@ pub mod draggable_player;
 pub mod player_formation;
 pub mod input;
 pub mod player_table;
+pub mod horizontal_line;

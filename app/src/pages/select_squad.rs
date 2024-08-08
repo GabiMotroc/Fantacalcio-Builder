@@ -1,5 +1,4 @@
-use leptos::{component, create_action, create_signal, IntoView, Signal, SignalUpdate, use_context, view};
-use leptos::leptos_dom::logging::console_log;
+use leptos::{component, create_action, create_signal, use_context, view, IntoView, Signal, SignalGetUntracked, SignalUpdate};
 
 use request_domain::player::{Player, Position};
 
@@ -14,14 +13,19 @@ pub fn SelectSquad() -> impl IntoView {
     let (players, set_players) = create_signal(Vec::<Player>::new());
     let a = create_action(move |_: &()| {
         async move {
-            console_log("got players");
             set_players(api.get_players().await);
         }
     });
     a.dispatch(());
 
-
     let (selected_players, set_selected_players) = create_signal(Vec::<Player>::new());
+    let a = create_action(move |_: &()| {
+        async move {
+            set_selected_players(api.get_selected_players().await);
+        }
+    });
+    a.dispatch(());
+
     let (selected_position, set_selected_position) = create_signal(None);
 
 
@@ -40,6 +44,17 @@ pub fn SelectSquad() -> impl IntoView {
         filter_position(result, position)
     });
 
+    let select_players = create_action(move |_: &()| {
+        async move {
+            let selected_players_ids = selected_players.get_untracked()
+                .into_iter()
+                .map(|i| i.id)
+                .collect::<Vec<_>>();
+
+            let _ = api.select_players(selected_players_ids).await;
+        }
+    });
+
     view! {
         <div class="container-fluid">
             <div class="row vh-100">
@@ -53,6 +68,14 @@ pub fn SelectSquad() -> impl IntoView {
                                 });
                         }
                     />
+
+                    <button
+                        class="btn btn-primary row"
+                        style="width: 100%"
+                        on:click=move |_| select_players.dispatch(())
+                    >
+                        Save selected players
+                    </button>
 
                 </div>
                 <div class="overflow-auto col-md-6" style="height=800px">
@@ -86,8 +109,8 @@ fn apply_search_filter(search_value: String, initial: Vec<Player>) -> Vec<Player
         false => {
             initial.into_iter()
                 .filter(|p|
-                p.name.to_lowercase().contains(&search_value.to_lowercase()) ||
-                    p.team.to_lowercase().contains(&search_value.to_lowercase())
+                    p.name.to_lowercase().contains(&search_value.to_lowercase()) ||
+                        p.team.to_lowercase().contains(&search_value.to_lowercase())
                 )
                 .collect::<Vec<_>>()
         }

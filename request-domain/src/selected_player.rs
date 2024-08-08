@@ -1,4 +1,4 @@
 pub struct SelectedPlayer {
-    user_id: i32,
-    player_id: i32,
+    pub user_id: i32,
+    pub player_id: i32,
 }

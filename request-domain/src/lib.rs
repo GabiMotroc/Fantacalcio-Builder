@@ -1,3 +1,3 @@
 pub mod login;
 pub mod player;
-mod selected_player;
+pub mod selected_player;

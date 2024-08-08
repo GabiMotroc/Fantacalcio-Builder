@@ -37,7 +37,28 @@ impl Db {
             .await
     }
 
+    pub async fn get_selected_players(pool: &PgPool, user_id: i32) -> Result<Vec<PlayerEntity>, sqlx::Error> {
+        sqlx::query_as!(
+            PlayerEntity,
+            r#"
+                select id, fantacalcio_id, name, team, is_active, position as "position: _" from players p
+                inner join selected_players sp on p.id = sp.player_id
+                where sp.user_id = $1
+            "#,
+            user_id
+        )
+            .fetch_all(pool)
+            .await
+    }
+
     pub async fn select_players(pool: &PgPool, user_id: i32, player_ids: Vec<i32>) -> Result<(), ApiError> {
+        sqlx::query!(
+            "delete from selected_players where user_id = $1", 
+            user_id
+        )
+            .execute(pool)
+            .await?;
+
         sqlx::query!(
             "insert into selected_players (user_id, player_id) select * from unnest($1::INT4[], $2::INT4[])", 
             &vec![user_id; player_ids.len()], &player_ids
