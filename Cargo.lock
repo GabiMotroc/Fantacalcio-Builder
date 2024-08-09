@@ -691,6 +691,7 @@ dependencies = [
 name = "fantacalcio_builder_app"
 version = "0.1.0"
 dependencies = [
+ "dotenv",
  "gloo-net",
  "hmac",
  "jwt",

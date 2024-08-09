@@ -1,5 +1,6 @@
-use leptos::*;
+use dotenv::dotenv;
 use leptos::leptos_dom::logging::console_log;
+use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
 use leptos_use::storage::use_local_storage;
@@ -23,6 +24,8 @@ mod services;
 
 #[component]
 pub fn App() -> impl IntoView {
+    dotenv().ok();
+    // let _api_string = std::env::var("API_URl").expect("API_URL must be set");
     let api = Api::new("http://localhost:3000/api");
     provide_context(api);
 

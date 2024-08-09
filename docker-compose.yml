@@ -6,11 +6,11 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: mydatabase
+      POSTGRES_DB: fantacalcio_builder
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5040:5040"
+      - "5040:5432"
 
   api:
     build:
@@ -19,12 +19,12 @@ services:
     #      args:
     #        - DATABASE_URL=postgres://postgres:password@postgres/mydatabase
     environment:
-      - DATABASE_URL=postgres://postgres:password@postgres:5040/mydatabase
+      - DATABASE_URL=postgres://postgres:password@postgres:5040/fantacalcio_builder
       - SQLX_OFFLINE=true
     depends_on:
       - postgres
     ports:
-      - "8080:8080"
+      - "3000:3000"
 
   app:
     build:
@@ -35,7 +35,7 @@ services:
     depends_on:
       - api
     ports:
-      - "3000:3000"
+      - "5000:80"
 
 volumes:
   postgres_data:
