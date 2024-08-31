@@ -21,7 +21,7 @@ FROM nginx:alpine
 COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
 
 # Expose the port
-EXPOSE 3000
+EXPOSE 5000
 
 # Run nginx
 CMD ["nginx", "-g", "daemon off;"]

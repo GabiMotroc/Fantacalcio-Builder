@@ -1,7 +1,7 @@
-version: '3.8'
+version: '3'
 
 services:
-  postgres:
+  db:
     image: postgres:14
     environment:
       POSTGRES_USER: postgres
@@ -14,15 +14,16 @@ services:
 
   api:
     build:
-      context: .
-      dockerfile: api.Dockerfile
+      context: ./api
+      dockerfile: Dockerfile
     #      args:
     #        - DATABASE_URL=postgres://postgres:password@postgres/mydatabase
     environment:
-      - DATABASE_URL=postgres://postgres:password@postgres:5040/fantacalcio_builder
+      - DATABASE_URL=postgres://postgres:password@db:5432/fantacalcio_builder
+      #      - DATABASE_URL=postgres://postgres:password@localhost:5040/fantacalcio_builder
       - SQLX_OFFLINE=true
     depends_on:
-      - postgres
+      - db
     ports:
       - "3000:3000"
 

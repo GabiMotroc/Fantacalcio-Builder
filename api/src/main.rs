@@ -1,10 +1,7 @@
-use axum::routing::{get, post};
 use dotenv::dotenv;
-use log::info;
 use tower_http::cors::CorsLayer;
 
 use crate::models::app_state::AppState;
-use crate::services::user_service;
 
 mod models;
 mod startup;
@@ -24,9 +21,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .layer(CorsLayer::permissive())
         .with_state(app_state);
 
-    info!("Starting server");
+    println!("Starting server");
 
-    let listener = tokio::net::TcpListener::bind("localhost:3000")
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000")
         .await?;
 
     axum::serve(listener, app).await?;

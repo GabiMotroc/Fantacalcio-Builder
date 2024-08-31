@@ -14,8 +14,8 @@ pub async fn init_database_pool() -> Pool<Postgres> {
             pool
         }
         Err(err) => {
-            println!("🔥  Failed to connect to the database: {:?}", err);
-            std::process::exit(1);
+            println!("🔥  Failed to connect to the database, {:?}: {:?}", database_url, err);
+            std::process::exit(2);
         }
     }
 }
