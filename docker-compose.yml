@@ -14,8 +14,8 @@ services:
 
   api:
     build:
-      context: ./api
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: api.Dockerfile
     #      args:
     #        - DATABASE_URL=postgres://postgres:password@postgres/mydatabase
     environment:
